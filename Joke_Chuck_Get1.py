@@ -5,29 +5,28 @@ from requests.exceptions import RequestException
 class TestChuckGet1:
     """Класс для работы с API Chuck Norris"""
 
-    def __init__(self, response=None):
-        self.response = response
-
-    def get_all_categories(self):
+    @staticmethod
+    def get_all_categories():
         """Получает список всех доступных категорий шуток"""
         try:
             # Отправляем GET-запрос для получения списка категорий
-            self.response = requests.get("https://api.chucknorris.io/jokes/categories")
-            return self.response.json()
+            response = requests.get("https://api.chucknorris.io/jokes/categories")
+            return response.json()
         except ValueError as e:
             print(f"Ошибка декодирования JSON: {e}")
         except RequestException as e:
             print(f"Ошибка запроса: {e}")
         return []  # Возвращаем пустой список в случае ошибки
 
-    def get_joke_by_category(self, category):
+    @staticmethod
+    def get_joke_by_category(category):
         """Получает случайную шутку из указанной категории"""
         try:
             # Формируем URL с указанной категорией
             url = f"https://api.chucknorris.io/jokes/random?category={category}"
             # Отправляем GET-запрос для получения шутки
-            self.response = requests.get(url)
-            return self.response.json()
+            response = requests.get(url)
+            return response.json()
         except ValueError as e:
             print(f"Ошибка декодирования JSON для категории {category}: {e}")
         except RequestException as e:
