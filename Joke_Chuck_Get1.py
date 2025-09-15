@@ -1,8 +1,10 @@
 import requests
 from requests.exceptions import RequestException
 
+
 class TestChuckGet1:
     """Класс для работы с API Chuck Norris"""
+
     def get_all_categories(self):
         """Получает список всех доступных категорий шуток"""
         try:
@@ -51,22 +53,20 @@ class TestChuckGet1:
                     # Получаем данные шутки
                     joke_data = self.get_joke_by_category(category)
 
-                    if joke_data is None:
-                        print(f"Не удалось получить шутку для категории {category}")
-                        continue
+                    assert joke_data is not None, f"Не удалось получить шутку для категории {category}"
 
                     # Выводим текст шутки
                     print(f"Шутка: {joke_data['value']}")
 
                     # Проверяем наличие имени "Chuck" в шутке
-                    if "Chuck" not in joke_data['value']:
-                        print(f"Внимание! В шутке не найдено имя 'Chuck'")
+                    assert "Chuck" in joke_data['value'], f"Внимание! В шутке не найдено имя 'Chuck'"
 
                 except (KeyError, TypeError) as e:
                     print(f"Ошибка при обработке данных для категории {category}: {e}")
 
         except RequestException as e:
             print(f"Ошибка запроса : {e}")
+
 
 # Создаем экземпляр класса
 Test_1 = TestChuckGet1()
