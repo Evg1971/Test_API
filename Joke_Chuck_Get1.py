@@ -20,15 +20,17 @@ class TestChuckGet1:
     def get_joke_by_category(self, category):
         """Получает случайную шутку из указанной категории"""
         try:
+            # Сохраняем переданную категорию как атрибут экземпляра
+            self.category = category
             # Формируем URL с указанной категорией
-            url = f"https://api.chucknorris.io/jokes/random?category={category}"
+            url = f"https://api.chucknorris.io/jokes/random?category={self.category}"
             # Отправляем GET-запрос для получения шутки
             response = requests.get(url)
             return response.json()
         except ValueError as e:
-            print(f"Ошибка декодирования JSON для категории {category}: {e}")
+            print(f"Ошибка декодирования JSON для категории {self.category}: {e}")
         except RequestException as e:
-            print(f"Ошибка запроса для категории {category}: {e}")
+            print(f"Ошибка запроса для категории {self.category}: {e}")
         return None  # Возвращаем None в случае ошибки
 
     def test_get_jokes_from_all_categories(self):
