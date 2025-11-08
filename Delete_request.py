@@ -24,7 +24,8 @@ class PlaceAPIClient:
         response.raise_for_status()
         return response
 
-    def read_place_ids_from_file(self, filename):
+    @staticmethod
+    def read_place_ids_from_file(filename):
         """Читает идентификаторы мест из текстового файла"""
         try:
             with open(filename, "r") as f:
@@ -40,16 +41,15 @@ class PlaceAPIClient:
         for place_id in place_ids:
             try:
                 response = self.get_place(place_id)
-                if response.status_code == 200:
-                    existing_places.append(place_id)
-                    print(f"Место с place_id {place_id} существует.")
-                else:
-                    print(f"Место с place_id {place_id} не существует.")
+                assert response.status_code == 200, f"Место с place_id {place_id} не существует."
+                existing_places.append(place_id)
+                print(f"Место с place_id {place_id} существует.")
             except requests.exceptions.HTTPError as e:
                 print(f"Ошибка при проверке place_id {place_id}: {e}")
         return existing_places
 
-    def save_place_ids_to_file(self, filename, place_ids):
+    @staticmethod
+    def save_place_ids_to_file(filename, place_ids):
         """Сохраняет идентификаторы мест в текстовый файл"""
         try:
             with open(filename, "w") as f:
